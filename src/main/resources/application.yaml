@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: crud-example
+  datasource:
+    url:  ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/demo}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:example}
+  docker:
+    compose:
+      enabled: false
+server:
+  port : 8081
