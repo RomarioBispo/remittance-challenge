@@ -15,9 +15,9 @@ public class Remittance {
     @NotNull
     private Integer id;
     @NotNull
-    private Integer debitorWalletId;
+    private Integer debitorId;
     @NotNull
-    private Integer creditorWalletId;
+    private Integer creditorId;
 
     @NotBlank
     private Double value;
