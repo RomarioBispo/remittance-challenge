@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Person {
     @NotNull
     private Integer id;
