@@ -2,10 +2,12 @@ package com.challenge.remitance_api.application.usecase;
 
 import com.challenge.remitance_api.businessrule.domain.Person;
 import com.challenge.remitance_api.businessrule.domain.Remittance;
+import com.challenge.remitance_api.businessrule.domain.Wallet;
 import com.challenge.remitance_api.businessrule.domain.enums.PersonTypeEnum;
 import com.challenge.remitance_api.businessrule.gateway.CurrentQuoteGateway;
 import com.challenge.remitance_api.businessrule.gateway.PersonGateway;
 import com.challenge.remitance_api.businessrule.gateway.RemittanceGateway;
+import com.challenge.remitance_api.businessrule.gateway.WalletGateway;
 import com.challenge.remitance_api.businessrule.usecase.CreateRemittanceUseCase;
 import com.challenge.remitance_api.infrastructure.exception.DailyLimitReachedException;
 import com.challenge.remitance_api.infrastructure.exception.NotEnoughBalanceException;
@@ -22,13 +24,20 @@ public class CreateRemittanceUseCaseImpl implements CreateRemittanceUseCase {
     private final RemittanceGateway remittanceGateway;
     private final PersonGateway personGateway;
     private final CurrentQuoteGateway currentQuoteGateway;
+    private final WalletGateway walletGateway;
 
     @Override
     public Remittance execute(Remittance remittance) {
-        Double value = remittance.getValue();
-        verifyBalance(remittance.getDebitorId(), value);
-        verifyDailyLimit(remittance.getDebitorId(), value);
+        Double toBeDebited = remittance.getValue();
+        verifyBalance(remittance.getDebitorId(), toBeDebited);
+        verifyDailyLimit(remittance.getDebitorId(), toBeDebited);
         var dollarQuotation = verifyDollarQuotation();
+        var toBeCredited = toBeDebited/dollarQuotation;
+        updateWallet(remittance.getDebitorId(), remittance.getCreditorId(), toBeDebited, toBeCredited);
+
+//
+//        create remittance
+
         //persist remitance
         return null;
     }
@@ -54,6 +63,20 @@ public class CreateRemittanceUseCaseImpl implements CreateRemittanceUseCase {
 
     private Double verifyDollarQuotation() {
       return currentQuoteGateway.getQuote();
+    }
+
+    private void updateWallet(Integer debitorId, Integer creditorId,
+                              Double toBeDebited, Double toBeCredited){
+        Wallet debitorWallet = walletGateway.findByPersonId(debitorId);
+        Double debitedValue = debitorWallet.getReaisBalance() - toBeDebited;
+        debitorWallet.setReaisBalance(debitedValue);
+
+        Wallet creditorWallet = walletGateway.findByPersonId(creditorId);
+        double creditedValue = creditorWallet.getDollarBalance() + toBeCredited;
+        creditorWallet.setDollarBalance(creditedValue);
+
+        walletGateway.save(debitorWallet);
+        walletGateway.save(creditorWallet);
     }
 
 }
