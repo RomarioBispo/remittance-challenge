@@ -35,7 +35,7 @@ public class CurrentQuoteGatewayImpl implements CurrentQuoteGateway {
 
             RestClient restClient = restClientBuilder.baseUrl(parametersConfig.getBaseURL()).build();
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
             ResponseEntity<QuoteReponse> response = restClient.get()
                     .uri(uriBuilder -> uriBuilder
