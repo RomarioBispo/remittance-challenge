@@ -16,11 +16,10 @@ public class WalletEntity {
     @Id
     @GeneratedValue
     private Integer id;
-    @Column(name = "remittance_id")
+    @Column(name = "person_id")
     private Integer personId;
     @Column(name = "reais_balance")
     private Double reaisBalance;
     @Column(name = "dollar_balance")
     private Double dollarBalance;
-
 }
