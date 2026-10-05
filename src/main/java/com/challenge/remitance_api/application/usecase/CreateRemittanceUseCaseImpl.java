@@ -1,5 +1,6 @@
 package com.challenge.remitance_api.application.usecase;
 
+import com.challenge.remitance_api.businessrule.domain.CurrencyEnum;
 import com.challenge.remitance_api.businessrule.domain.Person;
 import com.challenge.remitance_api.businessrule.domain.Remittance;
 import com.challenge.remitance_api.businessrule.domain.Wallet;
@@ -33,24 +34,27 @@ public class CreateRemittanceUseCaseImpl implements CreateRemittanceUseCase {
         verifyDailyLimit(remittance.getDebitorId(), toBeDebited);
         var dollarQuotation = verifyDollarQuotation();
         var toBeCredited = toBeDebited/dollarQuotation;
-        updateWallet(remittance.getDebitorId(), remittance.getCreditorId(), toBeDebited, toBeCredited);
 
-//
-//        create remittance
+        var debitorWallet = walletGateway.findByPersonId(remittance.getDebitorId());
+        var creditorWallet = walletGateway.findByPersonId(remittance.getCreditorId());
 
-        //persist remitance
-        return null;
+        updateWallet(debitorWallet,
+                creditorWallet,
+                toBeDebited, toBeCredited);
+
+        return remittanceGateway.createRemmitance(debitorWallet.getId(), creditorWallet.getId(),
+                toBeDebited, CurrencyEnum.BRL);
     }
 
     private void verifyDailyLimit(Integer debitorId, Double value) {
         Double dailyLimit = remittanceGateway.findDailyLimit(debitorId);
         Person person = personGateway.findPersonById(debitorId);
         if (PersonTypeEnum.PF.equals(person.getPersonType()) && (value + dailyLimit > NATURAL_PERSON_DAILY_LIMIT)){
-            throw new DailyLimitReachedException("Daily limit for natural person is reached: " + NATURAL_PERSON_DAILY_LIMIT);
+            throw new DailyLimitReachedException("Daily limit for natural person was reached: " + NATURAL_PERSON_DAILY_LIMIT);
         }
 
         if (PersonTypeEnum.PJ.equals(person.getPersonType()) && (value + dailyLimit > LEGAL_PERSON_DAILY_LIMIT)){
-            throw new DailyLimitReachedException("Daily limit for legal person is reached: " + LEGAL_PERSON_DAILY_LIMIT);
+            throw new DailyLimitReachedException("Daily limit for legal person was reached: " + LEGAL_PERSON_DAILY_LIMIT);
         }
     }
 
@@ -65,18 +69,16 @@ public class CreateRemittanceUseCaseImpl implements CreateRemittanceUseCase {
       return currentQuoteGateway.getQuote();
     }
 
-    private void updateWallet(Integer debitorId, Integer creditorId,
+    private void updateWallet(Wallet debitorWallet,
+                              Wallet creditorWallet,
                               Double toBeDebited, Double toBeCredited){
-        Wallet debitorWallet = walletGateway.findByPersonId(debitorId);
         Double debitedValue = debitorWallet.getReaisBalance() - toBeDebited;
         debitorWallet.setReaisBalance(debitedValue);
 
-        Wallet creditorWallet = walletGateway.findByPersonId(creditorId);
         double creditedValue = creditorWallet.getDollarBalance() + toBeCredited;
         creditorWallet.setDollarBalance(creditedValue);
 
         walletGateway.save(debitorWallet);
         walletGateway.save(creditorWallet);
     }
-
 }

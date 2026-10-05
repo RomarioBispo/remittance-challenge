@@ -9,6 +9,7 @@ public interface RemittanceRepository extends JpaRepository<RemittanceEntity, In
    @Query("SELECT SUM(r.value) from person p" +
            " join wallet w on p.id = w.personId" +
            " join remittance r on w.id = r.debitorWalletId" +
+           " where cast(r.remittanceDate as date) = CURRENT_DATE" +
            " group by cast (r.remittanceDate as date)")
    Double findDailyTotalByPersonId(Integer personId);
 }

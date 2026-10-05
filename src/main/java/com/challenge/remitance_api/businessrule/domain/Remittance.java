@@ -12,22 +12,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class Remittance {
-    @NotNull
     private Integer id;
     @NotNull
     private Integer debitorId;
     @NotNull
     private Integer creditorId;
-
     @NotBlank
     private Double value;
-
     @NotBlank
     private CurrencyEnum currency;
-
-    @NotBlank
-    private RemittanceStatusEnum status;
-
     @NotBlank
     private LocalDateTime remittanceDate;
 }
