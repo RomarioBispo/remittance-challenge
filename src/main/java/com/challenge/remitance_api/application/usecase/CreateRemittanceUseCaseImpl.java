@@ -3,6 +3,7 @@ package com.challenge.remitance_api.application.usecase;
 import com.challenge.remitance_api.businessrule.domain.Person;
 import com.challenge.remitance_api.businessrule.domain.Remittance;
 import com.challenge.remitance_api.businessrule.domain.enums.PersonTypeEnum;
+import com.challenge.remitance_api.businessrule.gateway.CurrentQuoteGateway;
 import com.challenge.remitance_api.businessrule.gateway.PersonGateway;
 import com.challenge.remitance_api.businessrule.gateway.RemittanceGateway;
 import com.challenge.remitance_api.businessrule.usecase.CreateRemittanceUseCase;
@@ -15,17 +16,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CreateRemittanceUseCaseImpl implements CreateRemittanceUseCase {
 
+    //TODO: convert in parameters yaml or database
     public static final int NATURAL_PERSON_DAILY_LIMIT = 10000;
     public static final int LEGAL_PERSON_DAILY_LIMIT = 50000;
     private final RemittanceGateway remittanceGateway;
     private final PersonGateway personGateway;
+    private final CurrentQuoteGateway currentQuoteGateway;
 
     @Override
     public Remittance execute(Remittance remittance) {
         Double value = remittance.getValue();
         verifyBalance(remittance.getDebitorId(), value);
         verifyDailyLimit(remittance.getDebitorId(), value);
-        //verifyDollarQuotation(), persist in local table and if you dont have in it, consult external service
+        var dollarQuotation = verifyDollarQuotation();
         //persist remitance
         return null;
     }
@@ -47,6 +50,10 @@ public class CreateRemittanceUseCaseImpl implements CreateRemittanceUseCase {
         if (remittanceValue > balance) {
             throw new NotEnoughBalanceException("Not enough Balance to continue the remittance, aborting");
         }
+    }
+
+    private Double verifyDollarQuotation() {
+      return currentQuoteGateway.getQuote();
     }
 
 }
