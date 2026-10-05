@@ -11,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name="natural_person")
-public class NaturalPersonEntity extends PersonEntity {
+public class NaturalPersonEntity{
     @Id
     @GeneratedValue
     private Integer id;

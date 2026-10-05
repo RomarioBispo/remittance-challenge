@@ -1,22 +1,18 @@
 package com.challenge.remitance_api.infrastructure.repository.entity;
 
 import com.challenge.remitance_api.businessrule.domain.enums.PersonTypeEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name="person")
+//TODO: review the entity hierarchy strategy
 public class PersonEntity {
     @Id
     @GeneratedValue
@@ -24,7 +20,6 @@ public class PersonEntity {
     private String email;
     private String password;
     @Column(name = "person_type")
+    @Enumerated(EnumType.STRING)
     private PersonTypeEnum personType;
-    @Column(name = "create_at")
-    private LocalDateTime createdAt;
 }
