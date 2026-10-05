@@ -10,3 +10,7 @@ spring:
       enabled: false
 server:
   port : 8081
+app:
+  quote:
+    base-url: https://olinda.bcb.gov.br
+    path: /olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)

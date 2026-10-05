@@ -2,3 +2,15 @@ spring:
   docker:
      compose:
        enabled: true
+app:
+    quote:
+      base-url: https://olinda.bcb.gov.br
+      path: /olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          client:
+            RestClient=DEBUG

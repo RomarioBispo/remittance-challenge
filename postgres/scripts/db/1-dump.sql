@@ -47,3 +47,11 @@ CREATE TABLE remittance (
     -- Impede que uma carteira transfira dinheiro para ela mesma
                             CHECK (debitor_wallet_id <> creditor_wallet_id)
 );
+
+
+-- 5. Tabela de quote
+CREATE TABLE dollar_quote (
+                            id SERIAL PRIMARY KEY,
+                            value NUMERIC(15, 2) NOT NULL,
+                            quote_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
