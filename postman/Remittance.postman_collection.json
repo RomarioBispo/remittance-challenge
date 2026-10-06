@@ -1,0 +1,218 @@
+{
+  "info": {
+    "_postman_id": "04a699a9-f24b-403b-8256-b9704d47ab2b",
+    "name": "Remittance",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58618259",
+    "_collection_link": "https://go.postman.co/collection/58618259-04a699a9-f24b-403b-8256-b9704d47ab2b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get dollar",
+      "protocolProfileBehavior": {
+        "disableCookies": false,
+        "followRedirects": true,
+        "protocolVersion": "auto",
+        "strictSSL": false
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao='03-10-2026'&$top=1&$format=json",
+          "protocol": "https",
+          "host": [
+            "olinda",
+            "bcb",
+            "gov",
+            "br"
+          ],
+          "path": [
+            "olinda",
+            "servico",
+            "PTAX",
+            "versao",
+            "v1",
+            "odata",
+            "CotacaoDolarDia(dataCotacao=@dataCotacao)"
+          ],
+          "query": [
+            {
+              "key": "@dataCotacao",
+              "value": "'03-10-2026'"
+            },
+            {
+              "key": "$top",
+              "value": "1"
+            },
+            {
+              "key": "$format",
+              "value": "json"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create remittance",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"creditorId\":\"1\",\r\n    \"debitorId\":\"2\",\r\n    \"value\": \"1000.00\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{HOST}}/remittances/v1/remittances",
+          "host": [
+            "{{HOST}}"
+          ],
+          "path": [
+            "remittances",
+            "v1",
+            "remittances"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "self remittance",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"creditorId\": \"1\",\n    \"debitorId\": \"1\",\n    \"value\": \"100.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{HOST}}/remittances/v1/remittances",
+          "host": [
+            "{{HOST}}"
+          ],
+          "path": [
+            "remittances",
+            "v1",
+            "remittances"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Not enough balance",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"creditorId\": \"2\",\n    \"debitorId\": \"1\",\n    \"value\": \"999999.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{HOST}}/remittances/v1/remittances",
+          "host": [
+            "{{HOST}}"
+          ],
+          "path": [
+            "remittances",
+            "v1",
+            "remittances"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "negative value for remittance",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"creditorId\": \"2\",\n    \"debitorId\": \"1\",\n    \"value\": \"999999.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{HOST}}/remittances/v1/remittances",
+          "host": [
+            "{{HOST}}"
+          ],
+          "path": [
+            "remittances",
+            "v1",
+            "remittances"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "debitor id does not exist",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"creditorId\": \"1\",\n    \"debitorId\": \"9999\",\n    \"value\": \"200.00\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{HOST}}/remittances/v1/remittances",
+          "host": [
+            "{{HOST}}"
+          ],
+          "path": [
+            "remittances",
+            "v1",
+            "remittances"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

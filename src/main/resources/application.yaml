@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: crud-example
+  datasource:
+    url:  ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/demo}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:example}
+  docker:
+    compose:
+      enabled: false
+server:
+  port : 8081
+app:
+  params:
+    natural-person-daily-limit: ${NATURAL_PERSON_DAILY_LIMIT:10000}
+    legal-person-daily-limit: ${LEGAL_PERSON_DAILY_LIMIT:50000}
+    base-url: ${BASE_URL_QUOTE:https://olinda.bcb.gov.br}
+    path: ${PATH_QUOTE:/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)}

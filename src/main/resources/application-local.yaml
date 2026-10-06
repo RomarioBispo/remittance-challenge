@@ -1,0 +1,10 @@
+spring:
+  docker:
+     compose:
+       enabled: true
+app:
+    params:
+      natural-person-daily-limit: ${NATURAL_PERSON_DAILY_LIMIT:10000}
+      legal-person-daily-limit: ${LEGAL_PERSON_DAILY_LIMIT:50000}
+      base-url: ${BASE_URL_QUOTE:https://olinda.bcb.gov.br}
+      path: ${PATH_QUOTE:/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)}
