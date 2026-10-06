@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -18,5 +18,5 @@ public class DollarQuoteEntity {
     @GeneratedValue
     private Integer id;
     private Double value;
-    private LocalDateTime quoteDate;
+    private LocalDate quoteDate;
 }
