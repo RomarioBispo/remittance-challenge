@@ -21,7 +21,12 @@ To run this project locally, you will need:
 * Postman
 
 ---
+## Database
+you can check it out the logical model on this [link](https://app.brmodeloweb.com/publicview/6ac483ad36b0d0a1170b37af)
 
+or alternatively see the image below:
+
+![img_5.png](img_5.png)
 ## How to Run the Project
 
 1. **Clone the repository:**
@@ -41,3 +46,4 @@ To run this project locally, you will need:
 9. After import a few scenarios will be shown
 ![img_4.png](img_4.png)
 10. you can test all of them and add more if you want it
+11. Application run in the 8081 port
