@@ -13,6 +13,7 @@ import org.springframework.web.client.RestClient;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +47,7 @@ public class CurrentQuoteGatewayImpl implements CurrentQuoteGateway {
                     .retrieve()
                     .toEntity(QuoteReponse.class);
 
-            List<DollarQuote> body = response.getBody()!=null? response.getBody().getValue(): List.of();
+            List<DollarQuote> body = response.getBody()!=null? response.getBody().getValue(): Collections.emptyList();
 
             Optional<Double> mostRecentDollarQuote = dollarQuoteRepository.findMostRecentDollarQuote();
             if (body.isEmpty() && mostRecentDollarQuote.isPresent()) {
