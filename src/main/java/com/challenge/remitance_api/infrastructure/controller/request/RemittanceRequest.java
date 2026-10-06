@@ -9,5 +9,6 @@ import jakarta.validation.constraints.Positive;
 public record RemittanceRequest (
         @Schema(name = "creditorId", example = "1", required = true) @NotNull String creditorId,
         @Schema(name = "debitorId", example = "2", required = true) @NotNull String debitorId,
-        @Schema(name = "value", example = "100.00", required = true) @Positive Double value) {
+        @Schema(name = "value", example = "100.00", required = true)
+        @Positive(message = "value deve ser maior que zero") Double value) {
 }
