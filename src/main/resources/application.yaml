@@ -11,6 +11,8 @@ spring:
 server:
   port : 8081
 app:
-  quote:
-    base-url: https://olinda.bcb.gov.br
-    path: /olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)
+  params:
+    natural-person-daily-limit: ${NATURAL_PERSON_DAILY_LIMIT:10000}
+    legal-person-daily-limit: ${LEGAL_PERSON_DAILY_LIMIT:50000}
+    base-url: ${BASE_URL_QUOTE:https://olinda.bcb.gov.br}
+    path: ${PATH_QUOTE:/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)}

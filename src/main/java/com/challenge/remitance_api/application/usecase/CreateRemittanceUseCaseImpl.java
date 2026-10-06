@@ -10,6 +10,7 @@ import com.challenge.remitance_api.businessrule.gateway.PersonGateway;
 import com.challenge.remitance_api.businessrule.gateway.RemittanceGateway;
 import com.challenge.remitance_api.businessrule.gateway.WalletGateway;
 import com.challenge.remitance_api.businessrule.usecase.CreateRemittanceUseCase;
+import com.challenge.remitance_api.infrastructure.config.ParametersConfig;
 import com.challenge.remitance_api.infrastructure.exception.DailyLimitReachedException;
 import com.challenge.remitance_api.infrastructure.exception.NotEnoughBalanceException;
 import com.challenge.remitance_api.infrastructure.exception.SameWalletException;
@@ -22,9 +23,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CreateRemittanceUseCaseImpl implements CreateRemittanceUseCase {
 
-    //TODO: convert in parameters yaml or database
-    public static final int NATURAL_PERSON_DAILY_LIMIT = 10000;
-    public static final int LEGAL_PERSON_DAILY_LIMIT = 50000;
+    private final ParametersConfig parametersConfig;
+
     private final RemittanceGateway remittanceGateway;
     private final PersonGateway personGateway;
     private final CurrentQuoteGateway currentQuoteGateway;
@@ -62,12 +62,12 @@ public class CreateRemittanceUseCaseImpl implements CreateRemittanceUseCase {
     private void verifyDailyLimit(Integer debitorId, Double value) {
         Double dailyLimit = remittanceGateway.findDailyLimit(debitorId);
         Person person = personGateway.findPersonById(debitorId);
-        if (PersonTypeEnum.PF.equals(person.getPersonType()) && (value + dailyLimit > NATURAL_PERSON_DAILY_LIMIT)){
-            throw new DailyLimitReachedException("Daily limit for natural person was reached: " + NATURAL_PERSON_DAILY_LIMIT);
+        if (PersonTypeEnum.PF.equals(person.getPersonType()) && (value + dailyLimit > parametersConfig.naturalPersonDailyLimit())){
+            throw new DailyLimitReachedException("Daily limit for natural person was reached: " + parametersConfig.naturalPersonDailyLimit());
         }
 
-        if (PersonTypeEnum.PJ.equals(person.getPersonType()) && (value + dailyLimit > LEGAL_PERSON_DAILY_LIMIT)){
-            throw new DailyLimitReachedException("Daily limit for legal person was reached: " + LEGAL_PERSON_DAILY_LIMIT);
+        if (PersonTypeEnum.PJ.equals(person.getPersonType()) && (value + dailyLimit > parametersConfig.legalPersonDailyLimit())){
+            throw new DailyLimitReachedException("Daily limit for legal person was reached: " + parametersConfig.legalPersonDailyLimit());
         }
     }
 

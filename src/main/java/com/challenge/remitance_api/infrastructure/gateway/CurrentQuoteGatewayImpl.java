@@ -33,13 +33,13 @@ public class CurrentQuoteGatewayImpl implements CurrentQuoteGateway {
         Optional<Double> dollarQuote = dollarQuoteRepository.findByDate(now);
         if (!dollarQuote.isPresent()){
 
-            RestClient restClient = restClientBuilder.baseUrl(parametersConfig.getBaseURL()).build();
+            RestClient restClient = restClientBuilder.baseUrl(parametersConfig.baseURL()).build();
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
             ResponseEntity<QuoteReponse> response = restClient.get()
                     .uri(uriBuilder -> uriBuilder
-                            .path(parametersConfig.getPath())
+                            .path(parametersConfig.path())
                             .queryParam("@dataCotacao", "'"+now.format(formatter)+"'")
                             .queryParam("$top", 1)
                             .queryParam("$format", "json")

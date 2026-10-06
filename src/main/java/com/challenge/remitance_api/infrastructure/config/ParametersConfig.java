@@ -1,15 +1,14 @@
 package com.challenge.remitance_api.infrastructure.config;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@ConfigurationProperties(prefix = "app.quote")
-@Getter
-@Setter
-public class ParametersConfig {
-    private String baseURL;
-    private String path;
+@ConfigurationProperties(prefix = "app.params")
+public record ParametersConfig(
+        @NotBlank String baseURL,
+        @NotBlank String path,
+        @NotNull @Positive Integer naturalPersonDailyLimit,
+        @NotNull @Positive Integer legalPersonDailyLimit){
 }
