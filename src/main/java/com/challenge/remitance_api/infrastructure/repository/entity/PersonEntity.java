@@ -12,7 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name="person")
-//TODO: review the entity hierarchy strategy
 public class PersonEntity {
     @Id
     @GeneratedValue
