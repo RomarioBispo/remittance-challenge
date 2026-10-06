@@ -12,5 +12,7 @@ public interface RemittanceMapper {
     @Mapping(source = "creditorId", target = "creditorWalletId")
     RemittanceEntity toEntity(Remittance remittance);
     Remittance toDomain(RemittanceRequest remittance);
+    @Mapping(source = "debitorWalletId", target = "debitorId")
+    @Mapping(source = "creditorWalletId", target = "creditorId")
     Remittance toDomain(RemittanceEntity remittance);
 }

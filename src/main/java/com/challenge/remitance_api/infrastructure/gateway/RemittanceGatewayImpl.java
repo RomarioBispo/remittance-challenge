@@ -25,7 +25,6 @@ public class RemittanceGatewayImpl implements RemittanceGateway {
 
     @Override
     public Double findWalletBalanceInReaisByPersonId(Integer personId) {
-        //TODO: validate personid exists
         return walletRepository.findReaisBalanceByPersonId(personId);
     }
 
