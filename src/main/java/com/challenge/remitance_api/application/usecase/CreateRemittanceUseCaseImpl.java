@@ -12,7 +12,9 @@ import com.challenge.remitance_api.businessrule.gateway.WalletGateway;
 import com.challenge.remitance_api.businessrule.usecase.CreateRemittanceUseCase;
 import com.challenge.remitance_api.infrastructure.exception.DailyLimitReachedException;
 import com.challenge.remitance_api.infrastructure.exception.NotEnoughBalanceException;
+import com.challenge.remitance_api.infrastructure.exception.SameWalletException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,7 @@ public class CreateRemittanceUseCaseImpl implements CreateRemittanceUseCase {
     @Transactional
     public Remittance execute(Remittance remittance) {
         Double toBeDebited = remittance.getValue();
+        verifySourceAndDestinyWallet(remittance.getDebitorId(), remittance.getCreditorId());
         verifyBalance(remittance.getDebitorId(), toBeDebited);
         verifyDailyLimit(remittance.getDebitorId(), toBeDebited);
         var dollarQuotation = verifyDollarQuotation();
@@ -49,6 +52,12 @@ public class CreateRemittanceUseCaseImpl implements CreateRemittanceUseCase {
 
         return remittanceGateway.createRemmitance(debitorWallet.getId(), creditorWallet.getId(),
                 toBeDebited, CurrencyEnum.BRL);
+    }
+
+    private void verifySourceAndDestinyWallet(@NotNull Integer debitorId, @NotNull Integer creditorId) {
+        if (debitorId.equals(creditorId)){
+            throw new SameWalletException("same walletid for both creditor and debitor is not allowed");
+        }
     }
 
     private void verifyDailyLimit(Integer debitorId, Double value) {

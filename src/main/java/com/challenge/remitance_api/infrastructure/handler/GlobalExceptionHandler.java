@@ -3,6 +3,7 @@ package com.challenge.remitance_api.infrastructure.handler;
 import com.challenge.remitance_api.infrastructure.controller.response.ErrorResponse;
 import com.challenge.remitance_api.infrastructure.exception.DailyLimitReachedException;
 import com.challenge.remitance_api.infrastructure.exception.NotEnoughBalanceException;
+import com.challenge.remitance_api.infrastructure.exception.SameWalletException;
 import com.challenge.remitance_api.infrastructure.exception.UserIdNotFoundExceptionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,9 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ MethodArgumentNotValidException.class,
                         DailyLimitReachedException.class,
-                        NotEnoughBalanceException.class})
+                        NotEnoughBalanceException.class,
+                        SameWalletException.class
+    })
     public ResponseEntity<Object> handleValidationExceptions(
             Exception ex) {
 
