@@ -26,7 +26,7 @@ you can check it out the logical model on this [link](https://app.brmodeloweb.co
 
 or alternatively see the image below:
 
-![img_5.png](img_5.png)
+![img_5.png](docs/img_5.png)
 ## How to Run the Project
 
 1. **Clone the repository:**
@@ -34,16 +34,16 @@ or alternatively see the image below:
    git clone https://github.com/RomarioBispo/remittance-challenge.git
    cd remitance-api
 2. Inside intellij: Create a run configuration
-![img.png](img.png)
+![img.png](docs/img.png)
 3. Click on run so all dependencies will be downloaded and artifacts generated
 4. Create another run configuration, this time for the application
-![img_2.png](img_2.png)
+![img_2.png](docs/img_2.png)
 5. Click on run, make sure you have set the "local" profile, docker and docker compose must be installed on your machine
 6. This is sufficient to run locally and fire up the docker containers with the database and some database seed
 7. When you get this screen everything was alright
-![img_3.png](img_3.png)
+![img_3.png](docs/img_3.png)
 8. You can go to the postman project folder, there you will find two files: the collection itself and the environment file, please import both on postman
 9. After import a few scenarios will be shown
-![img_4.png](img_4.png)
+![img_4.png](docs/img_4.png)
 10. you can test all of them and add more if you want it
 11. Application run in the 8081 port
