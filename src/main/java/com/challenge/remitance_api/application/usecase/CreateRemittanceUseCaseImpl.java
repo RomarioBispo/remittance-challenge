@@ -23,9 +23,6 @@ import org.springframework.stereotype.Service;
 public class CreateRemittanceUseCaseImpl implements CreateRemittanceUseCase {
 
     //TODO: convert in parameters yaml or database
-    //TODO: create unit tests
-    //TODO: use person password to generate a token??
-    //TODO: create documentation
     public static final int NATURAL_PERSON_DAILY_LIMIT = 10000;
     public static final int LEGAL_PERSON_DAILY_LIMIT = 50000;
     private final RemittanceGateway remittanceGateway;
@@ -37,14 +34,16 @@ public class CreateRemittanceUseCaseImpl implements CreateRemittanceUseCase {
     @Transactional
     public Remittance execute(Remittance remittance) {
         Double toBeDebited = remittance.getValue();
+
         verifySourceAndDestinyWallet(remittance.getDebitorId(), remittance.getCreditorId());
+        var debitorWallet = walletGateway.findByPersonId(remittance.getDebitorId());
+        var creditorWallet = walletGateway.findByPersonId(remittance.getCreditorId());
+
         verifyBalance(remittance.getDebitorId(), toBeDebited);
         verifyDailyLimit(remittance.getDebitorId(), toBeDebited);
         var dollarQuotation = verifyDollarQuotation();
         var toBeCredited = toBeDebited/dollarQuotation;
 
-        var debitorWallet = walletGateway.findByPersonId(remittance.getDebitorId());
-        var creditorWallet = walletGateway.findByPersonId(remittance.getCreditorId());
 
         updateWallet(debitorWallet,
                 creditorWallet,
