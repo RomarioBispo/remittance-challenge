@@ -2,7 +2,7 @@ package com.challenge.remitance_api.infrastructure.gateway;
 
 import com.challenge.remitance_api.businessrule.domain.Wallet;
 import com.challenge.remitance_api.businessrule.gateway.WalletGateway;
-import com.challenge.remitance_api.infrastructure.exception.UserIdNotFoundExceptionException;
+import com.challenge.remitance_api.infrastructure.exception.PersonIdNotFoundExceptionException;
 import com.challenge.remitance_api.infrastructure.mapper.WalletMapper;
 import com.challenge.remitance_api.infrastructure.repository.WalletRepository;
 import com.challenge.remitance_api.infrastructure.repository.entity.WalletEntity;
@@ -21,7 +21,7 @@ public class WalletGatewayImpl implements WalletGateway {
     public Wallet findByPersonId(Integer personId) {
         Optional<WalletEntity> walletEntity = walletRepository.findBypersonId(personId);
         if (!walletEntity.isPresent()){
-            throw new UserIdNotFoundExceptionException("User id not found");
+            throw new PersonIdNotFoundExceptionException("Person id not found");
         }
         return walletMapper.toDomain(walletEntity.get());
     }

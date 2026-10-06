@@ -4,7 +4,7 @@ import com.challenge.remitance_api.infrastructure.controller.response.ErrorRespo
 import com.challenge.remitance_api.infrastructure.exception.DailyLimitReachedException;
 import com.challenge.remitance_api.infrastructure.exception.NotEnoughBalanceException;
 import com.challenge.remitance_api.infrastructure.exception.SameWalletException;
-import com.challenge.remitance_api.infrastructure.exception.UserIdNotFoundExceptionException;
+import com.challenge.remitance_api.infrastructure.exception.PersonIdNotFoundExceptionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -20,9 +20,9 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-   @ExceptionHandler(UserIdNotFoundExceptionException.class)
+   @ExceptionHandler(PersonIdNotFoundExceptionException.class)
    public ResponseEntity<Object> handleResourceNotFoundException
-           (UserIdNotFoundExceptionException ex, WebRequest request) {
+           (PersonIdNotFoundExceptionException ex, WebRequest request) {
        ErrorResponse errorResponse = new ErrorResponse(
                LocalDateTime.now(),
                ex.getMessage(),
