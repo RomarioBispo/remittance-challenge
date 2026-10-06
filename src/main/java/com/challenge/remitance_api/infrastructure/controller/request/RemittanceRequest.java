@@ -10,5 +10,5 @@ public record RemittanceRequest (
         @Schema(name = "creditorId", example = "1", required = true) @NotNull String creditorId,
         @Schema(name = "debitorId", example = "2", required = true) @NotNull String debitorId,
         @Schema(name = "value", example = "100.00", required = true)
-        @Positive(message = "value deve ser maior que zero") Double value) {
+        @Positive(message = "value must be greater than zero") Double value) {
 }
