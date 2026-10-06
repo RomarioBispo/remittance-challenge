@@ -14,3 +14,6 @@ INSERT INTO wallet (id, person_id, reais_balance, dollar_balance) VALUES
                                                                       (1, 1, 5000.00, 200.00),
                                                                       (2, 2, 12500.50, 1000.00),
                                                                       (3, 3, 50000.00, 5000.00);
+
+INSERT INTO dollar_quote (id, value, quote_date) VALUES
+    (1, 5.25, CURRENT_DATE);
