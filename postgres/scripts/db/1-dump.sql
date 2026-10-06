@@ -1,5 +1,5 @@
 -- 1. Tabela Pai de Pessoas com Auditoria
-CREATE TABLE person (
+CREATE TABLE IF NOT EXISTS  person (
                         id SERIAL PRIMARY KEY,
                         email VARCHAR(255) UNIQUE NOT NULL,
                         password VARCHAR(255) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE person (
 );
 
 -- 2. Tabela de Carteiras
-CREATE TABLE wallet (
+CREATE TABLE IF NOT EXISTS  wallet (
                         id SERIAL PRIMARY KEY,
                         person_id INT UNIQUE NOT NULL,
                         reais_balance NUMERIC(15, 2) DEFAULT 0.00,
@@ -16,23 +16,21 @@ CREATE TABLE wallet (
 );
 
 -- 3. Tabela de Pessoa Física
-CREATE TABLE natural_person (
+CREATE TABLE IF NOT EXISTS natural_person (
                                 id INT PRIMARY KEY,
                                 full_name VARCHAR(255) NOT NULL,
                                 cpf VARCHAR(14) UNIQUE NOT NULL,
                                 FOREIGN KEY (id) REFERENCES person(id) ON DELETE CASCADE
 );
 
--- 4. Tabela de Pessoa Jurídica
-CREATE TABLE legal_person (
+CREATE TABLE IF NOT EXISTS legal_person (
                               id INT PRIMARY KEY,
                               company_name VARCHAR(255) NOT NULL,
                               cnpj VARCHAR(18) UNIQUE NOT NULL,
                               FOREIGN KEY (id) REFERENCES person(id) ON DELETE CASCADE
 );
 
--- 5. Tabela de Remessas
-CREATE TABLE remittance (
+CREATE TABLE IF NOT EXISTS remittance (
                             id SERIAL PRIMARY KEY,
                             debitor_wallet_id INT NOT NULL,
                             creditor_wallet_id INT NOT NULL,
@@ -45,7 +43,7 @@ CREATE TABLE remittance (
                             CHECK (debitor_wallet_id <> creditor_wallet_id)
 );
 
-CREATE TABLE dollar_quote (
+CREATE TABLE IF NOT EXISTS dollar_quote (
                               id SERIAL PRIMARY KEY,
                               value NUMERIC(15, 2) NOT NULL,
                               quote_date DATE DEFAULT CURRENT_DATE
